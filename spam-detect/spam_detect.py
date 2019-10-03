@@ -4,6 +4,7 @@ import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os.path
 from optparse import OptionParser
 from sklearn.model_selection import train_test_split, GridSearchCV, learning_curve
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
@@ -249,7 +250,10 @@ def main(argv):
         models = [models[opts.model_idx]]
 
     # ========== Import data ==========
-    data = pd.read_csv("spam_2col.csv", encoding='latin-1')
+    url = "spam_2col.csv"
+    if not os.path.exists(url):
+       url = "spam.csv" 
+    data = pd.read_csv(url, encoding='latin-1')
     # ========== Preprocess ==========
     if len(data.columns) > 2:
         data = data.drop(data.columns[2:], axis=1)
